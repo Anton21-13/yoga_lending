@@ -95,29 +95,26 @@ window.addEventListener('DOMContentLoaded', function() {
     overlay = document.querySelector('.overlay'),
     close = document.querySelector('.popup-close'),
     descrBtn = document.querySelectorAll('.description-btn');
-    
-  descrBtn.forEach(function(item) {
-    item.addEventListener('click', function() {
-      overlay.style.display = 'block',
-      this.classList.add('more-splash'),
-      document.body.style.overflow = 'hidden';
-    });
-  });
-  
-  more.addEventListener('click', function() {
+
+  function modalOpen() {
     overlay.style.display = 'block',
     this.classList.add('more-splash'),
     document.body.style.overflow = 'hidden';
-  });
+  };
 
-  close.addEventListener('click', function() {
+  function modalClose() {
     overlay.style.display = 'none',
     more.classList.remove('more-splash'),
     document.body.style.overflow = '';
+  };
+    
+  descrBtn.forEach(function(item) {
+    item.addEventListener('click', modalOpen);
   });
+  
+  more.addEventListener('click', modalOpen);
 
-
-
+  close.addEventListener('click', modalClose);
 
 });
 
