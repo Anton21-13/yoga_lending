@@ -126,16 +126,15 @@ window.addEventListener('DOMContentLoaded', () => {
 
   let form = document.querySelector('.main-form'),
     contactForm = document.querySelector('#form'),
-    input = document.getElementsByTagName('input'),
+    input = document.querySelectorAll('input'),
     statusMessage = document.createElement('div'),
-    btnLast = document.querySelector('input[type="submit"]');
+    btnLast = document.querySelector('button[type="submit"]');
 
   statusMessage.classList.add('status');
 
-  btnLast.addEventListener('click', () => {
-    input[0].setAttribute('name', 'email');
-    input[1].setAttribute('name', 'phone');
-  });
+  input[2].setAttribute('name', 'email');
+  input[3].setAttribute('name', 'phone');
+
   
   function submissionForm(element) {
     element.addEventListener('submit', (a) => {
