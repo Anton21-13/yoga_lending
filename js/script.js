@@ -1,4 +1,4 @@
-window.addEventListener('DOMContentLoaded', function() {
+window.addEventListener('DOMContentLoaded', () => {
 
   'use strict';
 
@@ -45,15 +45,15 @@ window.addEventListener('DOMContentLoaded', function() {
     hours = Math.floor((t/1000/60/60) % 24);
 
     if (hours < 10) {
-      hours = '0' + hours;
+      hours = `0 ${hours}`;
     }
 
     if (minutes < 10) {
-      minutes = '0' + minutes;
+      minutes = `0 ${minutes}`;
     }
 
     if (seconds < 10) {
-      seconds = '0' + seconds;
+      seconds = `0 ${seconds}`;
     }
 
     return {
@@ -100,15 +100,15 @@ window.addEventListener('DOMContentLoaded', function() {
     overlay.style.display = 'block',
     this.classList.add('more-splash'),
     document.body.style.overflow = 'hidden';
-  };
+  }
 
   function modalClose() {
     overlay.style.display = 'none',
     more.classList.remove('more-splash'),
     document.body.style.overflow = '';
-  };
+  }
     
-  descrBtn.forEach(function(item) {
+  descrBtn.forEach((item) => {
     item.addEventListener('click', modalOpen);
   });
   
@@ -116,8 +116,66 @@ window.addEventListener('DOMContentLoaded', function() {
 
   close.addEventListener('click', modalClose);
 
+  //Form
+
+  let message = {
+    loading: 'Загрузка...',
+    success: 'Спасибо! Скоро мы с вами свяжимся!',
+    failure: 'Что-то пошло не так...'
+  };
+
+  let form = document.querySelector('.main-form'),
+    contactForm = document.querySelector('#form'),
+    input = document.getElementsByTagName('input'),
+    statusMessage = document.createElement('div'),
+    btnLast = document.querySelector('input[type="submit"]');
+
+  statusMessage.classList.add('status');
+
+  btnLast.addEventListener('click', () => {
+    input[0].setAttribute('name', 'email');
+    input[1].setAttribute('name', 'phone');
+  });
+  
+  function submissionForm(element) {
+    element.addEventListener('submit', (a) => {
+      a.preventDefault();
+      element.appendChild(statusMessage);
+
+
+      let request = new XMLHttpRequest();
+      request.open('POST', 'server.php');
+      request.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
+
+      let formData = new FormData(element);
+
+      let obj = {};
+      formData.forEach((value, key) => {
+        obj[key] = value;
+      });
+
+      let json = JSON.stringify(obj);
+
+      request.send(json);
+
+      request.addEventListener('readystatechange', () => {
+        if (request.readyState < 4) {
+          statusMessage.innerHTML = message.loading;
+        } else if (request.readyState === 4 && request.status == 200) {
+          statusMessage.innerHTML = message.success;
+        } else {
+          statusMessage.innerHTML = message.failure;
+        }
+      });
+
+      for (let i = 0; i < input.length; i++) {
+        input[i].value = '';
+      }
+    });
+  }
+
+  submissionForm(form);
+  submissionForm(contactForm);
+
+
 });
-
-
-
-
