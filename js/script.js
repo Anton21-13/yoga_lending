@@ -128,7 +128,7 @@ window.addEventListener('DOMContentLoaded', () => {
     contactForm = document.querySelector('#form'),
     input = document.querySelectorAll('input'),
     statusMessage = document.createElement('div'),
-    btnLast = document.querySelector('button[type="submit"]');
+    inputPhone = document.querySelectorAll('input[type="tel"]');
 
   statusMessage.classList.add('status');
 
@@ -175,6 +175,14 @@ window.addEventListener('DOMContentLoaded', () => {
 
   submissionForm(form);
   submissionForm(contactForm);
-
+  
+  inputPhone.forEach(function(elem){
+    elem.addEventListener('focus', () => {
+      if(!/^\+\d*$/.test(elem.value)) elem.value = '+';
+    });
+    elem.addEventListener('keydown', (e) => {
+      if(!/\d/.test(e.key)) e.preventDefault();
+    });
+});
 
 });
