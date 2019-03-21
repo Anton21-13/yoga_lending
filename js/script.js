@@ -159,20 +159,21 @@ window.addEventListener('DOMContentLoaded', () => {
 
           request.onreadystatechange = () => {
             if (request.readyState < 4) {
-              resolve()
+              resolve();
             } else if (request.readyState === 4 && request.status == 200) {
-              resolve()
+              resolve();
             } else {
-              reject()
+              reject();
             }
-          }
+          };
           request.send(json);
-        })
+        });
       }
 
       function clearInput() {
         for (let i = 0; i < input.length; i++) {
           input[i].value = '';
+          
         }
       }
 
@@ -180,7 +181,7 @@ window.addEventListener('DOMContentLoaded', () => {
       .then(() => statusMessage.innerHTML = message.loading)
       .then(() => statusMessage.innerHTML = message.success)
       .catch(() => statusMessage.innerHTML = message.failure)
-      .then(clearInput)      
+      .then(clearInput);      
     });
   }
 
