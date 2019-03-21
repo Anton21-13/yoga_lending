@@ -176,7 +176,7 @@ window.addEventListener('DOMContentLoaded', () => {
   submissionForm(form);
   submissionForm(contactForm);
   
-  inputPhone.forEach(function(elem){
+  inputPhone.forEach((elem) => {
     elem.addEventListener('focus', () => {
       if(!/^\+\d*$/.test(elem.value)) elem.value = '+';
     });
