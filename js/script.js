@@ -140,12 +140,6 @@ window.addEventListener('DOMContentLoaded', () => {
     element.addEventListener('submit', (a) => {
       a.preventDefault();
       element.appendChild(statusMessage);
-
-
-      let request = new XMLHttpRequest();
-      request.open('POST', 'server.php');
-      request.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
-
       let formData = new FormData(element);
 
       let obj = {};
@@ -154,22 +148,39 @@ window.addEventListener('DOMContentLoaded', () => {
       });
 
       let json = JSON.stringify(obj);
+      
 
-      request.send(json);
+      function postData(data) {
 
-      request.addEventListener('readystatechange', () => {
-        if (request.readyState < 4) {
-          statusMessage.innerHTML = message.loading;
-        } else if (request.readyState === 4 && request.status == 200) {
-          statusMessage.innerHTML = message.success;
-        } else {
-          statusMessage.innerHTML = message.failure;
-        }
-      });
+        return new Promise((resolve, reject) => {
+          let request = new XMLHttpRequest();
+          request.open('POST', 'server.php');
+          request.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
 
-      for (let i = 0; i < input.length; i++) {
-        input[i].value = '';
+          request.onreadystatechange = () => {
+            if (request.readyState < 4) {
+              resolve()
+            } else if (request.readyState === 4 && request.status == 200) {
+              resolve()
+            } else {
+              reject()
+            }
+          }
+          request.send(json);
+        })
       }
+
+      function clearInput() {
+        for (let i = 0; i < input.length; i++) {
+          input[i].value = '';
+        }
+      }
+
+      postData(formData)
+      .then(() => statusMessage.innerHTML = message.loading)
+      .then(() => statusMessage.innerHTML = message.success)
+      .catch(() => statusMessage.innerHTML = message.failure)
+      .then(clearInput)      
     });
   }
 
