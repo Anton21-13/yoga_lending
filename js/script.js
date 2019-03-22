@@ -83,7 +83,6 @@ window.addEventListener('DOMContentLoaded', () => {
         seconds.textContent = "00";
         minutes.textContent = "00";
       }
-
     }  
   }
   
@@ -135,7 +134,6 @@ window.addEventListener('DOMContentLoaded', () => {
   input[2].setAttribute('name', 'email');
   input[3].setAttribute('name', 'phone');
 
-  
   function submissionForm(element) {
     element.addEventListener('submit', (a) => {
       a.preventDefault();
@@ -147,11 +145,9 @@ window.addEventListener('DOMContentLoaded', () => {
         obj[key] = value;
       });
 
-      let json = JSON.stringify(obj);
-      
+      let json = JSON.stringify(obj);      
 
       function postData(data) {
-
         return new Promise((resolve, reject) => {
           let request = new XMLHttpRequest();
           request.open('POST', 'server.php');
@@ -173,7 +169,6 @@ window.addEventListener('DOMContentLoaded', () => {
       function clearInput() {
         for (let i = 0; i < input.length; i++) {
           input[i].value = '';
-          
         }
       }
 
@@ -181,7 +176,7 @@ window.addEventListener('DOMContentLoaded', () => {
       .then(() => statusMessage.innerHTML = message.loading)
       .then(() => statusMessage.innerHTML = message.success)
       .catch(() => statusMessage.innerHTML = message.failure)
-      .then(clearInput);      
+      .then(clearInput);
     });
   }
 
@@ -194,6 +189,7 @@ window.addEventListener('DOMContentLoaded', () => {
         elem.value = '+';
       }
     });
+
     elem.addEventListener('keydown', (e) => {
       if(!/\d/.test(e.key)) {
         e.preventDefault();
@@ -208,7 +204,7 @@ window.addEventListener('DOMContentLoaded', () => {
     prev = document.querySelector('.prev'),
     next = document.querySelector('.next'),
     dotsWrap = document.querySelector('.slider-dots'),
-    dots = document.querySelectorAll('dot');
+    dots = document.querySelectorAll('.dot');
 
   showSlides(slideIndex);
 
@@ -226,15 +222,14 @@ window.addEventListener('DOMContentLoaded', () => {
     dots.forEach((item) => item.classList.remove('dot-active'));
 
     slides[slideIndex - 1].style.display = 'block';
-    dots[slideIndex - 1].classList.add = 'dot-active';
-    
+    dots[slideIndex - 1].classList.add('dot-active');    
   }
 
-  function plusSlides (n) {
+  function plusSlides(n) {
     showSlides(slideIndex += n);
   }
   
-  function currentSlide(n) {
+  function currentSlides(n) {
     showSlides(slideIndex = n);
   }
 
@@ -245,6 +240,59 @@ window.addEventListener('DOMContentLoaded', () => {
   next.addEventListener('click', () => {
     plusSlides(1);
   });
+
+  dotsWrap.addEventListener('click', (event) => {
+    for (let i = 0; i < dots.length + 1; i++) {
+      if (event.target.classList.contains('dot') && event.target == dots[i-1]) {
+        currentSlides(i);
+      }
+    }
+  });
+
+  //calc
+
+  let persons = document.querySelectorAll('.counter-block-input')[0],
+    restDays = document.querySelectorAll('.counter-block-input')[1],
+    place = document.getElementById('select'),
+    totalValue = document.getElementById('total'),
+    personsSum = 0,
+    daysSum = 0,
+    total = 0;
+
+  totalValue.innerHTML = 0;
+
+  persons.addEventListener('change', function() {
+    personsSum = +this.value;
+    total = (daysSum + personsSum)*4000;
+
+    if(restDays.value == '' || persons.value == '') {
+      totalValue.innerHTML = 0;
+    } else {
+      totalValue.innerHTML = total;
+    }
+  });
+
+  restDays.addEventListener('change', function() {
+    daysSum = +this.value;
+    total = (daysSum*personsSum)*4000;
+
+    if(persons.value == '') {
+      totalValue.innerHTML = 0;
+    } else {
+      totalValue.innerHTML = total;
+    }
+  });
+
+  place.addEventListener('change', function() {
+    if (restDays.value == '' || persons.value == '') {
+      totalValue.innerHTML = 0;
+    } else {
+      let a = total;
+      totalValue.innerHTML = a * this.options[this.selectedIndex].value;
+    }
+  });
+
+
 
 
 });
