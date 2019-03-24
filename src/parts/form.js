@@ -31,6 +31,12 @@ function form() {
 
       //let json = JSON.stringify(obj);      
 
+      let obj = {};
+
+      for(let i = 0; i < formData.length; i++) {
+        obj[i] = formData[i];
+      }
+
       function postData(data) {
         return new Promise((resolve, reject) => {
           let request = new XMLHttpRequest();
