@@ -203,12 +203,6 @@ function form() {
       // });
       //let json = JSON.stringify(obj);      
 
-      var obj = {};
-
-      for (var i = 0; i < formData.length; i++) {
-        obj[i] = formData[i];
-      }
-
       function postData(data) {
         return new Promise(function (resolve, reject) {
           var request = new XMLHttpRequest();
@@ -232,8 +226,8 @@ function form() {
       }
 
       function clearInput() {
-        for (var _i = 0; _i < input.length; _i++) {
-          input[_i].value = '';
+        for (var i = 0; i < input.length; i++) {
+          input[i].value = '';
         }
 
         statusMessage.innerHTML = '';
