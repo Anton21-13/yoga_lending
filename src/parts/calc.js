@@ -20,7 +20,6 @@ function calc() {
       let a = total;
       totalValue.innerHTML = a * place.options[place.selectedIndex].value;
     }
-    console.log(total);
   });
 
   restDays.addEventListener('change', function() {
@@ -33,7 +32,6 @@ function calc() {
       let a = total;
       totalValue.innerHTML = a * place.options[place.selectedIndex].value;
     }
-    console.log(total);
   });
 
   place.addEventListener('change', function() {
@@ -43,7 +41,6 @@ function calc() {
       let a = total;
       totalValue.innerHTML = a * this.options[this.selectedIndex].value;
     }
-    console.log(total);
   });
 
 }
